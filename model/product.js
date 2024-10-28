@@ -13,13 +13,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         colors: {
           type: DataTypes.JSONB,
+          defaultValue:['#000'],
           allowNull: false,
         },
         description: {
-          type: DataTypes.TEXT,
+          type: DataTypes.JSONB,
         },
         images: {
           type: DataTypes.JSONB,
+          defaultValue:[''],
+          allowNull: false,
         },
         stock_quantity: {
           type: DataTypes.INTEGER,

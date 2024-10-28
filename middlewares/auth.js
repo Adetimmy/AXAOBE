@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const BadRequest = require("../errors/bad-request");
 const UnauthenticatedError = require("../errors/unauthenticated");
 const Joi = require("joi");
-const validator = require("express-joi-validation").createValidator({});
+
 
 // Middleware to protect routes
 module.exports = function authMiddleware(req, res, next) {

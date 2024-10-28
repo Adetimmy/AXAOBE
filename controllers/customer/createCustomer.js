@@ -1,8 +1,8 @@
 const { CREATED } = require("http-status-codes").StatusCodes;
 const { Op } = require("sequelize");
-const db = require("../db");
-const BadRequest = require("../errors/bad-request");
-const { CustomerSchema } = require("../utils/schema");
+const db = require("../../db");
+const BadRequest = require("../../errors/bad-request");
+const { CustomerSchema } = require("../../utils/schema");
 
 module.exports = async function createCustomer(req, res) {
   const { value, error } = CustomerSchema.validate(req.body);

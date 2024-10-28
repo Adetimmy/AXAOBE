@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: { msg: "Please provide a valid email address" },
         },
       },
-      full_name: {
+      fullName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
