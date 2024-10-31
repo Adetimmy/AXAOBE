@@ -8,8 +8,8 @@ module.exports.getOrderById = async (req, res) => {
 
   const order = await db.order.findByPk(id, {
     include: [
-      { model: OrderItem, as: "orderItems" },
-      { model: Customer, as: "customer" },
+      { model: db.orderItem, as: "items" },
+      { model: db.customer, as: "customer" },
     ],
   });
   if (!order) {

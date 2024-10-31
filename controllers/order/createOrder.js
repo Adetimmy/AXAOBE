@@ -10,43 +10,58 @@ module.exports = async function createOrder(req, res) {
   if (error) {
     throw new BadRequest(error.message);
   }
-    // Start a transaction
-    const transaction = await db.sequelize.transaction();
 
-    const item = typeof value.items === 'string'? JSON.parse(value.items) : value.items;
+  // Start a transaction
+  const transaction = await db.sequelize.transaction();
 
-    try {
-      // Create the order within the transaction
-      const newOrder = await db.order.create(
-        {
-          shipping_fee: value.shipping_fee,
-          subtotal: calculateSubtotal(item),
-          total_amount: calculateTotalAmount(item, value.shipping_fee),
-          payment_method: value.payment_method,
-          customer_id: value.customer_id,
-        },
-        { transaction }
-      );
+  //   passing the product id to fetch the actual product
+  const { dataValues } = await db.product.findOne({
+    where: {
+      id: value.product_id,
+    },
+  });
 
-      // Bulk create order items within the transaction
-      await db.orderItem.bulkCreate(
-        {
-          quantity: item.quantity,
-          order_id: newOrder.id,
-          product_id: item.id,
-        },
-        { transaction }
-      );
+  try {
+    // Create the order within the transaction
+    const newOrder = await db.order.create(
+      {
+        shipping_fee: value.shipping_fee,
+        subtotal: calculateSubtotal(dataValues, value.quantity),
+        total_amount: calculateTotalAmount(
+          dataValues,
+          value.quantity,
+          value.shipping_fee
+        ),
+        payment_method: value.payment_method,
+        customer_id: value.customer_id,
+      },
+      { transaction }
+    );
 
-      // Commit the transaction if all operations succeed
-      await transaction.commit();
-
-      res.status(CREATED).json({ success: true, newOrder });
-    } catch (error) {
-      // Rollback the transaction if any operation fails
-      await transaction.rollback();
-      res
-        .status(INTERNAL_SERVER_ERROR)
-        .json({ message: "Error creating order", error: error.message });
+    const productExists = await db.product.findByPk(dataValues.id);
+    if (!productExists) {
+      throw new BadRequest("Product does not exist");
     }
+
+    // create order items within the transaction
+    await db.orderItem.create(
+      {
+        quantity: value.quantity,
+        order_id: newOrder.id,
+        product_id: dataValues.id,
+      },
+      { transaction }
+    );
+
+    // Commit the transaction if all operations succeed
+    await transaction.commit();
+
+    res.status(CREATED).json({ success: true, newOrder });
+  } catch (error) {
+    // Rollback the transaction if any operation fails
+    await transaction.rollback();
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .json({ message: "Error creating order", error: error.message });
+  }
 };

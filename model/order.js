@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 0,
       },
+      // we'll add paystack reference id here, if payment is by paystack
       total_amount: {
         type: DataTypes.FLOAT,
         allowNull: false,

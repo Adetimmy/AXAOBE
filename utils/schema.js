@@ -29,11 +29,9 @@ const ProductSchema = Joi.object({
     .required()
     .messages({ "string.empty": "Please provide a name for your product." }),
   colors: Joi.array(),
-  description: Joi.array()
-    .required()
-    .messages({
-      "array.empty": "Please provide the descriptions of the product",
-    }),
+  description: Joi.array().required().messages({
+    "array.empty": "Please provide the descriptions of the product",
+  }),
   images: Joi.array(),
   status: Joi.string()
     .valid("new", "preorder", "hot", "sold")
@@ -61,26 +59,27 @@ const ProductSchema = Joi.object({
 // Order Schema
 const OrderSchema = Joi.object({
   shipping_fee: Joi.number()
-  .required()
-  .messages({"number.empty":'Please provide shipping fee'}),
-  subtotal:Joi.number()  
-  .required()
-  .messages({"number.empty":'Please provide sub total of order'}),
-  total_amount: Joi.number()
-  .required()
-  .messages({"number.empty":'Please provide total amount of order'}),
-  payment_method: Joi.string().valid('payment on delivery', 'paystack')
-  .required()
-  .messages({"string.empty":'Please provide method of payment, either pay on delivery or paystack service'}),
+    .required()
+    .messages({ "number.empty": "Please provide shipping fee" }),
+  payment_method: Joi.string()
+    .valid("payment on delivery", "paystack")
+    .required()
+    .messages({
+      "string.empty":
+        "Please provide method of payment, either pay on delivery or paystack service",
+    }),
   customer_id: Joi.string()
-  .required()
-  .messages({"number.empty":'Please provide customer id for the order'}),
-  items: Joi.array()
-  .required()
-  .messages({"array.empty":"Product ordered can't be empty"})
-})
+    .required()
+    .messages({ "number.empty": "Please provide customer id for the order" }),
+  product_id: Joi.string()
+    .required()
+    .messages({ "string.empty": "Product ordered id can't be empty" }),
+  quantity: Joi.number()
+    .required()
+    .messages({ "string.empty": "Product quantity can't be empty" }),
+});
 module.exports = {
   CustomerSchema,
   ProductSchema,
-  OrderSchema
+  OrderSchema,
 };
