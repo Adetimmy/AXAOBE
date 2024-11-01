@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   const Order = require("./order")(sequelize, DataTypes);
   const OrderItem = require("./order-items")(sequelize, DataTypes);
   const Product = require("./product")(sequelize, DataTypes);
+  const Discount = require('./discount')(sequelize, DataTypes)
 
   // Customer-Order Association
   Customer.hasMany(Order, { foreignKey: "customer_id", as: "order" });
@@ -17,5 +18,5 @@ module.exports = (sequelize, DataTypes) => {
   Product.hasMany(OrderItem, { foreignKey: "product_id", as: "orderItems" });
   OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 
-  return { Customer, Order, OrderItem, Product };
+  return { Customer, Order, OrderItem, Product, Discount };
 };

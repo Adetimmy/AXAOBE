@@ -26,6 +26,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("payment on delivery", "paystack"),
         defaultValue: "paystack",
       },
+      paystack_ref: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique:true,
+        defaultValue: null,
+      },
+      transaction_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique:true,
+        defaultValue: null,
+      },
       customer_id: {
         type: DataTypes.UUID,
         allowNull: false,
@@ -41,7 +53,6 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Order;
 };
-
 
 // const { DataTypes } = require("sequelize");
 
@@ -79,4 +90,3 @@ module.exports = (sequelize, DataTypes) => {
 
 //   return Order;
 // };
-

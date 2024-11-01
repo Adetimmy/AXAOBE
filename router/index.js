@@ -10,6 +10,7 @@ const getAllProduct = require('../controllers/product/getAllProduct')
 const getSingleProduct = require('../controllers/product/getSingleProduct')
 const updateProduct = require('../controllers/product/updateProduct')
 const ipMiddleware = require('../middlewares/ip')
+const { initializeTrans, verifyTrans } = require('../utils/paystack')
 
 const router = require('express').Router()
 
@@ -20,5 +21,7 @@ router.route('/product/:id').get(getSingleProduct).put(updateProduct).delete(del
 router.route('/order').post(createOrder)
 router.route('/order/:customer_id').get(getOrdersByCustomerId)
 router.route('/orders/:id').get(getOrderById)
+router.route('/paycheck/:id').post(initializeTrans)
+router.route('/paycheckverify/:id').post(verifyTrans)
 
 module.exports = router

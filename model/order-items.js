@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
           onUpdate: "CASCADE",
           onDelete: "CASCADE",
         },
+        color:{
+          type: DataTypes.JSON,
+          allowNull: false,
+          defaultValue: ['#000'],
+        }
       },
       { freezeTableName: true }
     );

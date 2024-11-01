@@ -41,10 +41,11 @@ const startServer = async () => {
   try {
     await db.sequelize.authenticate();
     // await db.product.bulkCreate(product);
-    // await db.order.sync({force:true})
-    // await db.customer.sync({force:true})
+    // await db.discount.sync({force:true})
+    // await db.orderItem.sync({force:true})
     // await db.order.sync()
-    // await db.sequelize.sync();
+    // await db.sequelize.sync({force:true});
+    // await db.discount.sync()
     app.listen(port, () => {
       console.log(`server listening on port ${port}`);
     });

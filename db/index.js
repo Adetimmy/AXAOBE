@@ -22,5 +22,6 @@ db.customer = model(sequelize, Sequelize.DataTypes).Customer;
 db.order = model(sequelize, Sequelize.DataTypes).Order;
 db.orderItem = model(sequelize, Sequelize.DataTypes).OrderItem;
 db.product = model(sequelize, Sequelize.DataTypes).Product;
+db.discount = model(sequelize, Sequelize.DataTypes).Discount
 
 module.exports = db;

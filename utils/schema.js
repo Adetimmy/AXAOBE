@@ -58,9 +58,7 @@ const ProductSchema = Joi.object({
 
 // Order Schema
 const OrderSchema = Joi.object({
-  shipping_fee: Joi.number()
-    .required()
-    .messages({ "number.empty": "Please provide shipping fee" }),
+  shipping_fee: Joi.number(),
   payment_method: Joi.string()
     .valid("payment on delivery", "paystack")
     .required()
@@ -71,15 +69,39 @@ const OrderSchema = Joi.object({
   customer_id: Joi.string()
     .required()
     .messages({ "number.empty": "Please provide customer id for the order" }),
-  product_id: Joi.string()
+  product_id: Joi.array()
     .required()
     .messages({ "string.empty": "Product ordered id can't be empty" }),
-  quantity: Joi.number()
+  quantity: Joi.array()
     .required()
     .messages({ "string.empty": "Product quantity can't be empty" }),
+  color: Joi.array()
+    .required()
+    .messages({ "string.empty": "Product selected color can't be empty" }),
 });
+
+// Discount Schema
+const DiscountSchema = Joi.object({
+  code:Joi.string()
+  .required()
+  .messages({'string.empty':"discount code must be provided"}),
+  type:Joi.string()
+  .default('percentage')
+  .required()
+  .valid('percentage', 'fixed')
+  .messages({'string.empty':'please provide type of dscount'}),
+  discount_value: Joi.number()
+  .required()
+  .messages({'string.empty':'please provide discount value either in percentage or flat value'}),
+  expiry_date:Joi.date()
+  .required()
+  .messages({'date.empty':'please insert delete this code expires'})
+})
+
+
 module.exports = {
   CustomerSchema,
   ProductSchema,
   OrderSchema,
+  DiscountSchema
 };
